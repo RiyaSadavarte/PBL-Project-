@@ -1,0 +1,1105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ENGINEERING TOOLBOX </title>
+    <style>
+        /* CSS for navigation */
+        #navbar {
+            background-color: #333;
+            overflow: hidden;
+        }
+
+        #navbar a {
+            float: left;
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 20px;
+            text-decoration: none;
+        }
+
+        #navbar a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+
+        /* CSS for calculator container */
+        #calculator-container {
+            display: none;
+            margin-top: 20px;
+        }
+
+        /* CSS for calculator and converter buttons */
+        .button {
+            width: 65px;
+            height: 65px;
+            font-size: 18px;
+            margin: 5px;
+        }
+
+	 /* CSS for converter options */
+        .converter-option {
+            margin: 10px 0;
+            cursor: pointer;
+            color: blue;
+        }
+
+        .converter-option:hover {
+            text-decoration: underline;
+        }
+
+        /* CSS for converter sections */
+        .converter-section {
+            display: none;
+            margin-top: 20px;
+        }
+
+        .active-converter {
+            display: block;
+        }
+
+	/* CSS for constants sections */
+        .constants-section {
+            display: none;
+            margin-top: 20px;
+        }
+
+        .active-constants {
+            display: block;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<!-- Navigation bar -->
+<div id="navbar">
+	<a href="#" id="home-link">Home</a>
+	<a href="#" id="calculator-link">Calculator</a>
+	<a href="#" id="converter-link">Converter</a>
+	<a href="#" id="constants-link">Constants</a>
+	<a href="#" id="formulae-link"><i class="fas fa-superscript"></i> Formulae</a>
+</div>
+
+<!-- Calculator Container -->
+<div id="calculator-container">
+    <h2>Scientific Calculator</h2>
+    <div id="calculator-display"></div>
+    <div id="calculator-buttons">
+        <!-- Calculator buttons -->
+        
+	<button class="button" onclick="memoryAdd()">M+</button>
+        <button class="button" onclick="memorySubtract()">M-</button>
+        <button class="button" onclick="memoryStore()">MS</button>
+        <button class="button" onclick="clearMemory()">MC</button> <br>
+
+	<button class="button" onclick="appendToDisplay('**')">^</button>
+	<button class="button" onclick="appendToDisplay('1/')">1/x</button>
+	<button class="button" onclick="appendToDisplay('Math.exp(')">exp</button>
+	<button class="button" onclick="appendToDisplay(' % ')">mod</button> <br> 
+        
+	<button class="button" onclick="appendToDisplay('Math.PI')">π</button>
+	<button class="button" onclick="appendToDisplay('Math.E')">e</button>
+	<button class="button" onclick="appendToDisplay('%')">%</button>
+	<button class="button" onclick="clearDisplay()">AC</button>
+	<button class="button" onclick="backspace()">←</button> <br>
+       
+	<button class="button" onclick="appendToDisplay('Math.sqrt(')">√</button>
+        <button class="button" onclick="appendToDisplay('(')">(</button>
+	<button class="button" onclick="appendToDisplay(')')">)</button>
+        <button class="button" onclick="appendToDisplay('!')">!</button>
+	<button class="button" onclick="appendToDisplay('/')">/</button> <br>
+
+	<button class="button" onclick="appendToDisplay('**')">^</button>
+	<button class="button" onclick="appendToDisplay('7')">7</button>
+        <button class="button" onclick="appendToDisplay('8')">8</button>
+        <button class="button" onclick="appendToDisplay('9')">9</button>
+	<button class="button" onclick="appendToDisplay('*')">*</button><br>
+
+	<button class="button" onclick="appendToDisplay('Math.pow(10, ')">10^x</button>
+        <button class="button" onclick="appendToDisplay('4')">4</button>
+        <button class="button" onclick="appendToDisplay('5')">5</button>
+        <button class="button" onclick="appendToDisplay('6')">6</button>
+        <button class="button" onclick="appendToDisplay('-')">-</button><br>
+
+        <button class="button" onclick="appendToDisplay('Math.log(')">log</button>
+        <button class="button" onclick="appendToDisplay('1')">1</button>
+        <button class="button" onclick="appendToDisplay('2')">2</button>
+        <button class="button" onclick="appendToDisplay('3')">3</button>
+        <button class="button" onclick="appendToDisplay('+')">+</button><br>
+
+	<button class="button" onclick="appendToDisplay('Math.log(')">ln</button>
+	<button class="button" onclick="negate()">+/-</button>
+        <button class="button" onclick="appendToDisplay('0')">0</button>
+        <button class="button" onclick="appendToDisplay('.')">.</button>
+        <button class="button" onclick="calculate()">=</button> <br>
+    	
+	<button class="button" onclick="appendToDisplay('Math.sin(')">sin</button>
+	<button class="button" onclick="appendToDisplay('Math.cos(')">cos</button>
+	<button class="button" onclick="appendToDisplay('Math.tan(')">tan</button> 
+	<button class="button" onclick="convert('DEG')">DEG</button>
+ 	<button class="button" onclick="convert('RAD')">RAD</button><br>
+
+	 <button class="button" onclick="appendToDisplay('Math.asin(')">asin</button>
+        <button class="button" onclick="appendToDisplay('Math.acos(')">acos</button>
+        <button class="button" onclick="appendToDisplay('Math.atan(')">atan</button>  
+	<button class="button" onclick="convert('GRAD')">GRAD</button><br>
+    </div>
+</div>	
+
+<!-- Converter Container -->
+<div id="converter-container">
+    <h2>Converter</h2>
+    <div class="converter-option" onclick="openConverter('Length')">Length Converter</div>
+    <div class="converter-option" onclick="openConverter('Weight')">Weight and Mass Converter</div>
+    <div class="converter-option" onclick="openConverter('Volume')">Volume Converter</div>
+    <div class="converter-option" onclick="openConverter('Temperature')">Temperature Converter</div>
+    <div class="converter-option" onclick="openConverter('Energy')">Energy Converter</div>
+    <div class="converter-option" onclick="openConverter('Time')">Time Converter</div>
+    <div class="converter-option" onclick="openConverter('Speed')">Speed Converter</div>
+    <div class="converter-option" onclick="openConverter('Word')">Word-to-number converter</div>
+    <div class="converter-option" onclick="openConverter('Currency')">Currency Converter</div>
+</div>
+
+<!-- Length Converter -->
+<div id="length-converter" class="converter-section">
+    
+<h3>Length Converter</h3>
+    <input type="number" id="length-input">
+    <select id="length-from">
+        <option value="m">Meter</option>
+	<option value="km">Kilometer</option>
+        <option value="cm">Centimeter</option>
+        <option value="mm">Millimeter</option>
+        <option value="um">Micrometer</option>
+        <option value="nm">Nanometer</option>
+        <option value="mile">Mile</option>
+        <option value="nautical-mile">Nautical Mile</option>
+        <option value="foot">Foot</option>
+        <option value="inch">Inch</option>
+        <option value="yard">Yard</option>
+        <!-- Add more options as needed -->
+    </select>
+    <select id="length-to">
+        <option value="m">Meter</option>
+	<option value="km">Kilometer</option>
+        <option value="cm">Centimeter</option>
+        <option value="mm">Millimeter</option>
+        <option value="um">Micrometer</option>
+        <option value="nm">Nanometer</option>
+        <option value="mile">Mile</option>
+        <option value="nautical-mile">Nautical Mile</option>
+        <option value="foot">Foot</option>
+        <option value="inch">Inch</option>
+        <option value="yard">Yard</option>
+        <!-- Add more options as needed -->
+    </select>
+    <button onclick="convertLength()">Convert</button>
+    <div id="length-output"></div>
+</div>
+
+<!-- Weight Converter -->
+<div id="weight-converter" class="converter-section">
+    <h3>Weight and Mass Converter</h3>
+    <input type="number" id="weight-input">
+    <select id="weight-from">
+        <option value="kg">Kilogram</option>
+        <option value="g">Gram</option>
+        <!-- Add more options as needed -->
+    </select>
+    <select id="weight-to">
+        <option value="kg">Kilogram</option>
+        <option value="g">Gram</option>
+        <!-- Add more options as needed -->
+    </select>
+    <button onclick="convertWeight()">Convert</button>
+    <div id="weight-output"></div>
+</div>
+
+
+<!-- Volume Converter -->
+<div id="volume-converter" class="converter-section">
+    <h3>Volume Converter</h3>
+    <input type="number" id="volume-input">
+    <select id="volume-from">
+        <option value="l">Liter</option>
+        <option value="ml">Milliliter</option>
+        <!-- Add more options as needed -->
+    </select>
+    <select id="volume-to">
+        <option value="l">Liter</option>
+        <option value="ml">Milliliter</option>
+        <!-- Add more options as needed -->
+    </select>
+    <button onclick="convertVolume()">Convert</button>
+    <div id="volume-output"></div>
+</div>
+
+
+<!-- Temperature Converter -->
+<div id="temperature-converter" class="converter-section">
+    <h3>Temperature Converter</h3>
+    <input type="number" id="temperature-input">
+    <select id="temperature-from">
+        <option value="c">Celsius</option>
+        <option value="f">Fahrenheit</option>
+        <!-- Add more options as needed -->
+    </select>
+    <select id="temperature-to">
+        <option value="c">Celsius</option>
+        <option value="f">Fahrenheit</option>
+        <!-- Add more options as needed -->
+    </select>
+    <button onclick="convertTemperature()">Convert</button>
+    <div id="temperature-output"></div>
+</div>
+
+<!-- Energy Converter -->
+<div id="energy-converter" class="converter-section">
+    <h3>Energy Converter</h3>
+    <input type="number" id="energy-input">
+    <select id="energy-from">
+        <option value="j">Joule</option>
+        <option value="cal">Calorie</option>
+        <!-- Add more options as needed -->
+    </select>
+    <select id="energy-to">
+        <option value="j">Joule</option>
+        <option value="cal">Calorie</option>
+        <!-- Add more options as needed -->
+    </select>
+    <button onclick="convertEnergy()">Convert</button>
+    <div id="energy-output"></div>
+</div>
+
+<!-- Time Converter -->
+<div id="time-converter" class="converter-section">
+    <h3>Time Converter</h3>
+    <input type="number" id="time-input">
+    <select id="time-from">
+        <option value="s">Second</option>
+        <option value="min">Minute</option>
+        <option value="hr">Hour</option>
+        <!-- Add more options as needed -->
+    </select>
+    <select id="time-to">
+        <option value="s">Second</option>
+        <option value="min">Minute</option>
+        <option value="hr">Hour</option>
+        <!-- Add more options as needed -->
+    </select>
+    <button onclick="convertTime()">Convert</button>
+    <div id="time-output"></div>
+</div>
+
+<!-- Speed Converter -->
+<div id="speed-converter" class="converter-section">
+    <h3>Speed Converter</h3>
+    <input type="number" id="speed-input">
+    <select id="speed-from">
+        <option value="mps">Meter per second</option>
+        <option value="kmph">Kilometer per hour</option>
+        <!-- Add more options as needed -->
+    </select>
+    <select id="speed-to">
+        <option value="mps">Meter per second</option>
+        <option value="kmph">Kilometer per hour</option>
+        <!-- Add more options as needed -->
+    </select>
+    <button onclick="convertSpeed()">Convert</button>
+    <div id="speed-output"></div>
+</div>
+
+
+<!-- Word-to-number Converter -->
+<div id="word-to-number-converter" class="converter-section">
+    <h3>Word-to-number Converter</h3>
+    <!-- Add word-to-number converter elements -->
+</div>
+
+<!-- Currency Converter -->
+<div id="currency-converter" class="converter-section">
+    <h3>Currency Converter</h3>
+    <!-- Add currency converter elements -->
+</div>
+
+<!-- Constants Container -->
+<div id="constants-container">
+    <h2>Constants</h2>
+    <div class="constants-option" onclick="openConstants('EngineeringPhysics')">Engineering Physics</div>
+    <div class="constants-option" onclick="openConstants('EngineeringChemistry')">Engineering Chemistry</div>
+    <div class="constants-option" onclick="openConstants('Mathematics')">Mathematics</div>
+    <div class="constants-option" onclick="openConstants('EngineeringMechanics')">Engineering Mechanics</div>
+    <div class="constants-option" onclick="openConstants('BasicElectricalEngineering')">Basic Electrical Engineering</div>
+    <div class="constants-option" onclick="openConstants('SystemMechanics')">System in Mechanical Engineering</div>
+    <div class="constants-option" onclick="openConstants('BasicElectronicsEngineering')">Basic Electronics Engineering</div>
+    <div class="constants-option" onclick="openConstants('PPS')">PPS</div>
+</div>
+
+<!-- Engineering Physics Constants -->
+<div id="engineering-physics-constants" class="constants-section">
+    <h3>Engineering Physics Constants</h3>
+
+<style>
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  th, td {
+    padding: 8px;
+    border: 1px solid #ddd;
+    text-align: center; /* Center align text */
+  }
+</style>
+
+	<table border="5">
+        <tr>
+            <th>Name</th>
+            <th>Symbol</th>
+            <th>Value</th>
+        </tr>
+        <tr>
+            <td>Speed of Light in Vacuum</td>
+            <td> c </td>
+            <td>299,792,458 m/s</td>
+        </tr>
+        <tr>
+            <td>Planck's Constant</td>
+            <td> h </td>
+            <td>6.62607015 × 10<sup>-34</sup> J·s</td>
+        </tr>
+	<tr>
+            <td>Curie Constant</td>
+            <td> C </td>
+            <td>1.3047 K*A/(T*m)</td>
+        </tr>
+	<tr>
+            <td>Compton Wavelength</td>
+            <td>  λ </td>
+            <td>0.242 Å</td>
+        </tr>
+	<tr>
+            <td>Bohr Radius</td>
+            <td> a0 </td>
+            <td>0.0529 m</td>
+        </tr>
+	
+
+
+        <!-- Add more constants as needed -->
+    </table>
+</div>	
+
+<!-- Engineering Chemistry Constants -->
+<div id="engineering-chemistry-constants" class="constants-section">
+    <h3>Engineering Chemistry Constants</h3>
+	
+	<style>
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  th, td {
+    padding: 8px;
+    border: 1px solid #ddd;
+    text-align: center; /* Center align text */
+  }
+</style>
+
+	<table border="5">
+        <tr>
+            <th>Name</th>
+            <th>Symbol</th>
+            <th>Value</th>
+        </tr>
+	<tr>
+	<td> acceleration due to gravity </td>
+	<td> g </td>
+	<td> 9.8 m s <sup> -2 </sup> </td>
+	</tr>
+	<tr>
+	<td> atomic mass unit </td>
+	<td> amu </td>
+	<td> 1.66 * 10 <sup> -27 </sup> kg</td>
+	</tr>
+	<tr>
+	<td> Avogadro's number </td>
+	<td> N </td>
+	<td> 6.022 * 10 <sup> 23 </sup> mol <sup> -1 </sup> </td>
+	</tr>
+	<tr>
+	<td> Boltzmann constant</td>
+	<td> k </td>
+	<td> 1.38 * 10 <sup> -23 </sup> J K <sup> -1 </sup> </td>
+	</tr>
+	<tr>
+	<td> Gas constant </td>
+	<td> R </td>
+	<td> 8.314 J mol <sup> -1 </sup> K <sup> -1 </sup></td>
+	</tr>
+
+
+
+
+	</table>
+    <!-- Add engineering chemistry constants -->
+</div>
+
+<!-- Mathematics Constants -->
+<div id="mathematics-constants" class="constants-section">
+    <h3>Mathematics Constants</h3>
+    <!-- Add mathematics constants -->
+</div>
+
+<!-- Engineering Mechanics Constants -->
+<div id="engineering-mechanics-constants" class="constants-section">
+    <h3>Engineering Mechanics Constants</h3>
+    <!-- Add engineering mechanics constants -->
+</div>
+
+<!-- Basic Electrical Engineering Constants -->
+<div id="basic-electrical-engineering-constants" class="constants-section">
+    <h3>Basic Electrical Engineering Constants</h3>
+    <!-- Add basic electrical engineering constants -->
+</div>
+
+<!-- System Mechanics Constants -->
+<div id="system-mechanics-constants" class="constants-section">
+    <h3>System in Mechanical Engineering Constants</h3>
+    <!-- Add system mechanics constants -->
+</div>
+
+<!-- Basic Electronics Engineering Constants -->
+<div id="basic-electronics-engineering-constants" class="constants-section">
+    <h3>Basic Electronics Engineering Constants</h3>
+    <!-- Add basic electronics engineering constants -->
+</div>
+
+<!-- PPS Constants -->
+<div id="pps-constants" class="constants-section">
+    <h3>PPS Constants</h3>
+    <!-- Add PPS constants -->
+</div>
+
+	<!-- Formulae Container -->
+<div id="formulae-container" style="display: none;">
+    <h2>Formulae</h2>
+    <div class="formulae-option" onclick="openFormulae('engineering-physics')">Engineering Physics</div>
+    <div class="formulae-option" onclick="openFormulae('engineering-chemistry')">Engineering Chemistry</div>
+    <div class="formulae-option" onclick="openFormulae('engineering-m1')">Engineering M1</div>
+    <div class="formulae-option" onclick="openFormulae('engineering-m2')">Engineering M2</div>
+    <div class="formulae-option" onclick="openFormulae('bee')">BEE</div>
+    <div class="formulae-option" onclick="openFormulae('bxe')">BXE</div>
+    <div class="formulae-option" onclick="openFormulae('engineering-mechanics')">Engineering Mechanics</div>
+</div>
+
+<!-- Engineering Physics Formulae -->
+<div id="engineering-physics-formulae" class="formulae-section" style="display: none;">
+    <h3>Engineering Physics Formulae</h3>
+
+	</style>
+
+	<table border="5">
+        <tr>
+            <th>Name</th>
+            <th>Symbol</th>
+            <th>Value</th>
+        </tr>
+	<tr>
+	<td> Average Speed Formula </td>
+	<td> s</td>
+	<td> s = d/t </td>
+	</tr>
+	<tr>
+	<td> Acceleration Formula  </td>
+	<td> a</td>
+	<td> a = v - u/t</td>
+	</tr>
+	<tr>
+	<td> Density Formula </td>
+	<td>p</td>
+	<td> P = m/V</td>
+	</tr>
+	<tr>
+	<td> Newtons second law	</td>
+	<td>F</td>
+	<td>F = m a</td>
+	</tr>
+	<tr>
+	<td> Frequency Formula</td>
+	<td> F </td>
+	<td> F = v/ λ</td>
+	</tr>
+	<tr>
+	<td> Friction Force Formula </td>
+	<td> f </td>
+	<td> f =  μN</td>
+	</tr>
+	<tr>
+	<td>Refractive Index Formula </td>
+	<td> n</td>
+	<td>n = c/v </td>
+	</tr>
+	
+	</table>
+	
+
+    <!-- Add engineering physics formulae -->
+</div>
+
+<!-- Engineering Chemistry Formulae -->
+<div id="engineering-chemistry-formulae" class="formulae-section" style="display: none;">
+    <h3>Engineering Chemistry Formulae</h3
+
+    <!-- Add engineering chemistry formulae -->
+</div>
+
+<!-- Engineering M1 Formulae -->
+<div id="engineering-m1-formulae" class="formulae-section" style="display: none;">
+    <h3>Engineering M1 Formulae</h3>
+
+	<b> 1) BASIC TRIGONOMETRIC TABLE : </b> <br> <br>
+	<table border="5"> 
+        <tr>
+        <th>Angles in Degrees </th>
+        <th>0°</th>
+        <th> 30°</th>
+	<th> 45° </th>
+	<th> 60° </th>
+	<th> 90° </th>
+	<th> 180° </th>                                                   						
+	<th>  270° </th>
+	<th> 360°</th>
+        </tr>
+	<tr>
+        <th>Angles in Radians</th>
+        <th>0°</th>
+        <th>  π/6</th>
+	<th> π/4 </th>
+	<th>π/3</th>
+	<th> π/2</th>
+	<th> π </th>
+	<th> 3π/2 </th>
+	<th> 2π</th>
+        </tr>
+	<tr>
+	<td>sin </td>
+	<td> 0</td>
+	<td> 1/2</td>
+	<td>1/ √2</td>
+	<td>√3 / 2 </td>
+	<td>1 </td>
+	<td> 0</td>
+	<td> -1 </td>
+	<td> 0 </td>
+	</tr>
+	<tr>
+	<td>cos </td>
+	<td> 1</td>
+	<td>√3/2</td>
+	<td>1/√2 </td>
+	<td> 1/2</td>
+	<td> 0</td>
+	<td> -1</td>
+	<td> 0</td>
+	<td> 1</td>
+	</tr>
+	<tr>
+	<td>tan </td>
+	<td> 0</td>                                                                                       
+	<td> 1/√3</td>
+	<td> 1</td>
+	<td>√3 </td>
+	<td> ∞</td>
+	<td> 0 </td>
+	<td> ∞</td>
+	<td> 0 </td>
+	</tr>
+	<tr>
+	<td>cot </td>
+	<td> ∞</td>
+	<td>√3 </td>
+	<td> 1</td>
+	<td> 1/√3</td>
+	<td> 0</td>
+	<td>∞ </td>
+	<td> 0</td>            
+	<td>∞ </td>
+	</tr>
+	<tr>
+	<td>cosec </td>
+	<td> ∞</td>
+	<td> 2</td>
+	<td>√2 </td>
+	<td> 2/√3 </td>
+	<td> 1</td>
+	<td> ∞</td>
+	<td> -1</td>
+	<td> ∞</td>
+	</tr>
+	<tr>
+	<td>sec </td>
+	<td> 1</td>
+	<td> 2/√3</td>
+	<td> √2</td>
+	<td> 2</td>
+	<td>∞ </td>
+	<td> -1</td>
+	<td> ∞</td>
+	<td>1 </td>
+	</tr>
+</table> <br> <br>
+
+	<b> 2) Double and Triple Angle Identities :  </b> <br> <br>
+	<table> 
+	<tr> 
+	<th> Double Angle Indentities : </th>
+	<th> Triple angle Identities : </th>
+	</tr>
+<tr>
+<td>   <b> These are used when the given angle is the double of any standard angle.</b> </td>
+<td>   <b> These are used when the given angle is the triple of any standard angle.</b> </td>
+</tr>
+<tr>
+<td> sin(2x) = 2sin(x) * cos(x) = [2tan x/(1+tan2 x)]  </td>
+<td> Sin 3x = 3sin x – 4sin3x </td>
+</tr>
+<tr> 
+<td> cos(2x) = cos2(x)–sin2(x) = [(1-tan2 x)/(1+tan2 x)] </td>
+<td> Cos 3x = 4cos3x-3cos x </td>
+</tr>
+<tr>
+<td> tan(2x) = [2tan(x)]/ [1−tan2(x)] </td>
+<td>Tan 3x = [3tanx-tan3x]/[1-3tan2x] </td>
+</tr>
+<tr> <td> sec (2x) = sec2 x/(2-sec2 x)  </td> </tr>
+<tr> <td> csc (2x) = (sec x. csc x)/2  </td> </tr>
+<tr> <td> 	cos(2x) = 2cos2(x)−1 = 1–2sin2(x)  </td> </tr>
+	
+	    <!-- Add engineering M1 formulae -->
+</div>
+
+<!-- Engineering M2 Formulae -->
+<div id="engineering-m2-formulae" class="formulae-section" style="display: none;">
+    <h3>Engineering M2 Formulae</h3>
+    <!-- Add engineering M2 formulae -->
+</div>
+
+<!-- BEE Formulae -->
+<div id="bee-formulae" class="formulae-section" style="display: none;">
+    <h3>BEE Formulae</h3>
+    <!-- Add BEE formulae -->
+</div>
+
+<!-- BXE Formulae -->
+<div id="bxe-formulae" class="formulae-section" style="display: none;">
+    <h3>BXE Formulae</h3>
+    <!-- Add BXE formulae -->
+</div>
+
+<!-- Engineering Mechanics Formulae -->
+<div id="engineering-mechanics-formulae" class="formulae-section" style="display: none;">
+    <h3>Engineering Mechanics Formulae</h3>
+    <!-- Add engineering mechanics formulae -->
+</div>
+
+
+
+
+<script>
+
+
+// Function to set home page as default view
+    window.onload = function() {
+        document.getElementById('home-link').click();
+    };
+
+
+    // JavaScript code for calculator logic
+    function appendToDisplay(value) {
+        document.getElementById('calculator-display').innerText += value;
+    }
+
+    function clearDisplay() {
+        document.getElementById('calculator-display').innerText = '';
+    }
+
+    function calculate() {
+	        try {
+            let result = eval(document.getElementById('calculator-display').innerText);
+            document.getElementById('calculator-display').innerText = result;
+        } catch (error) {
+            document.getElementById('calculator-display').innerText = 'Error';
+        }
+    }
+
+    // End of JavaScript code for calculator logic
+
+    // Function to toggle calculator visibility
+    function showCalculator() {
+        document.getElementById('calculator-container').style.display = 'block';
+    }
+
+function memoryAdd() {
+        let displayValue = document.getElementById('calculator-display').innerText;
+        let number = parseFloat(displayValue);
+        if (!isNaN(number)) {
+            memory += number;
+        }
+    }
+
+    function memorySubtract() {
+        let displayValue = document.getElementById('calculator-display').innerText;
+        let number = parseFloat(displayValue);
+        if (!isNaN(number)) {
+            memory -= number;
+        }
+    }
+
+    function memoryStore() {
+        let displayValue = document.getElementById('calculator-display').innerText;
+        let number = parseFloat(displayValue);
+        if (!isNaN(number)) {
+            memory = number;
+        }
+    }
+
+    function clearMemory() {
+        memory = 0;
+    }
+
+    function negate() {
+        let displayValue = document.getElementById('calculator-display').innerText;
+        if (displayValue.charAt(0) === '-') {
+            document.getElementById('calculator-display').innerText = displayValue.substring(1);
+        } else {
+            document.getElementById('calculator-display').innerText = '-' + displayValue;
+        }
+    }
+
+    function convert(type) {
+        let displayValue = parseFloat(document.getElementById('calculator-display').innerText);
+        if (!isNaN(displayValue)) {
+            switch (type) {
+                case 'DEG':
+                    document.getElementById('calculator-display').innerText = (displayValue * (180 / Math.PI)).toFixed(2);
+                    break;
+                case 'RAD':
+                    document.getElementById('calculator-display').innerText = (displayValue * (Math.PI / 180)).toFixed(2);
+                    break;
+                case 'GRAD':
+                    document.getElementById('calculator-display').innerText = (displayValue * (200 / Math.PI)).toFixed(2);
+                    break;
+            }
+        }
+    }
+
+    function factorial(n) {
+        if (n === 0 || n === 1)
+            return 1;
+        for (var i = n - 1; i >= 1; i--) {
+            n *= i;
+        }
+        return n;
+    }
+
+function fact() {
+        let displayValue = parseFloat(document.getElementById('calculator-display').innerText);
+        if (!isNaN(displayValue)) {
+            document.getElementById('calculator-display').innerText = factorial(displayValue);
+        }
+    }
+
+function backspace() {
+        let displayValue = document.getElementById('calculator-display').innerText;
+        document.getElementById('calculator-display').innerText = displayValue.slice(0, -1);
+    }
+
+
+    function hideCalculator() {
+        document.getElementById('calculator-container').style.display = 'none';
+    }
+
+    // Event listeners for navigation links
+    document.getElementById('home-link').addEventListener('click', function(event) {
+        event.preventDefault(); // Prevent default link behavior
+        // Code to show home page or perform other actions
+        hideCalculator(); // Hide calculator if it's visible
+    });
+
+    document.getElementById('calculator-link').addEventListener('click', function(event) {
+        event.preventDefault(); // Prevent default link behavior
+        // Code to show calculator page or perform other actions
+        showCalculator(); // Show calculator
+    })
+
+
+// Functions to toggle calculator and converter containers
+    document.getElementById('home-link').addEventListener('click', function() {
+        document.getElementById('calculator-container').style.display = 'none';
+        document.getElementById('converter-container').style.display = 'none';
+	document.getElementById('constants-container').style.display = 'none';
+	document.getElementById('formulae-container').style.display = 'none';        // Hide formulae container
+    });
+
+    document.getElementById('calculator-link').addEventListener('click', function() {
+        document.getElementById('calculator-container').style.display = 'block';
+        document.getElementById('converter-container').style.display = 'none';
+	document.getElementById('constants-container').style.display = 'none';
+ 	document.getElementById('formulae-container').style.display = 'none'; // Hide formulae container
+    });
+
+    document.getElementById('converter-link').addEventListener('click', function() {
+        document.getElementById('calculator-container').style.display = 'none';
+        document.getElementById('converter-container').style.display = 'block';
+	document.getElementById('constants-container').style.display = 'none';
+	document.getElementById('formulae-container').style.display = 'none'; // Hide formulae container
+    });
+
+	document.getElementById('constants-link').addEventListener('click', function() {
+        document.getElementById('calculator-container').style.display = 'none';
+        document.getElementById('converter-container').style.display = 'none';
+        document.getElementById('constants-container').style.display = 'block';
+ 	document.getElementById('formulae-container').style.display = 'none'; // Hide formulae container
+    });
+
+
+	document.getElementById('formulae-link').addEventListener('click', function() {
+    document.getElementById('calculator-container').style.display = 'none';
+    document.getElementById('converter-container').style.display = 'none';
+    document.getElementById('constants-container').style.display = 'none';
+    document.getElementById('formulae-container').style.display = 'block'; // Show the formulae container
+});
+
+
+    // Function to open selected converter
+    function openConverter(converterType) {
+        // Hide all converter sections
+        const converterSections = document.querySelectorAll('.converter-section');
+        converterSections.forEach(section => {
+            section.classList.remove('active-converter');
+        });
+
+        // Show the selected converter section
+        const selectedConverter = document.getElementById(converterType.toLowerCase() + '-converter');
+        if (selectedConverter) {
+            selectedConverter.classList.add('active-converter');
+        }
+    }
+
+    // Length Converter Logic
+    function convertLength() {
+        const inputValue = parseFloat(document.getElementById('length-input').value);
+        const fromUnit = document.getElementById('length-from').value;
+        const toUnit = document.getElementById('length-to').value;
+
+       // Conversion factors
+        const conversionFactors = {
+            m: { m: 1, mm: 1000, um: 1e6, nm: 1e9, mile: 0.000621371, 'nautical-mile': 0.000539957, foot: 3.28084, inch: 39.3701, yard: 1.09361 },
+	    km: { m: 1000, km: 1, cm: 100000 },
+            cm: { m: 0.01, km: 0.00001, cm: 1 },
+            mm: { m: 0.001, mm: 1, um: 1000, nm: 1e6, mile: 6.2137e-7, 'nautical-mile': 5.3996e-7, foot: 0.00328084, inch: 0.0393701, yard: 0.00109361 },
+            um: { m: 1e-6, mm: 0.001, um: 1, nm: 1000, mile: 6.2137e-10, 'nautical-mile': 5.3996e-10, foot: 3.2808e-6, inch: 0.0000393701, yard: 1.09361e-6 },
+            nm: { m: 1e-9, mm: 1e-6, um: 0.001, nm: 1, mile: 6.2137e-13, 'nautical-mile': 5.3996e-13, foot: 3.28084e-9, inch: 3.93701e-8, yard: 1.09361e-9 },
+            mile: { m: 1609.34, mm: 1.60934e6, um: 1.60934e9, nm: 1.60934e12, mile: 1, 'nautical-mile': 0.868976, foot: 5280, inch: 63360, yard: 1760 },
+            'nautical-mile': { m: 1852, mm: 1852e3, um: 1852e6, nm: 1852e9, mile: 1.15078, 'nautical-mile': 1, foot: 6076.12, inch: 72913.4, yard: 2025.37 },
+            foot: { m: 0.3048, mm: 304.8, um: 304800, nm: 304800000, mile: 0.000189394, 'nautical-mile': 0.000164579, foot: 1, inch: 12, yard: 0.333333 },
+            inch: { m: 0.0254, mm: 25.4, um: 25400, nm: 25400000, mile: 1.5783e-5, 'nautical-mile': 1.3715e-5, foot: 0.0833333, inch: 1, yard: 0.0277778 },
+            yard: { m: 0.9144, mm: 914.4, um: 914400, nm: 914400000, mile: 0.000568182, 'nautical-mile': 0.000493737, foot: 3, inch: 36, yard: 1 }
+            // Add more conversion factors as needed
+	};
+
+        if (!isNaN(inputValue)) {
+            const result = inputValue * conversionFactors[fromUnit][toUnit];
+            document.getElementById('length-output').innerText = result + ' ' + toUnit;
+        } else {
+            document.getElementById('length-output').innerText = 'Invalid input';
+        }
+    }
+
+	// Weight Converter Logic
+    function convertWeight() {
+        const inputValue = parseFloat(document.getElementById('weight-input').value);
+        const fromUnit = document.getElementById('weight-from').value;
+        const toUnit = document.getElementById('weight-to').value;
+
+        // Conversion factors
+        const conversionFactors = {
+            kg: { kg: 1, g: 1000 },
+            g: { kg: 0.001, g: 1 }
+            // Add more conversion factors as needed
+        };
+
+        if (!isNaN(inputValue)) {
+            const result = inputValue * conversionFactors[fromUnit][toUnit];
+            document.getElementById('weight-output').innerText = result + ' ' + toUnit;
+        } else {
+            document.getElementById('weight-output').innerText = 'Invalid input';
+        }
+    }
+
+// Volume Converter Logic
+    function convertVolume() {
+        const inputValue = parseFloat(document.getElementById('volume-input').value);
+        const fromUnit = document.getElementById('volume-from').value;
+        const toUnit = document.getElementById('volume-to').value;
+
+        // Conversion factors
+        const conversionFactors = {
+            l: { l: 1, ml: 1000 },
+            ml: { l: 0.001, ml: 1 }
+            // Add more conversion factors as needed
+        };
+
+        if (!isNaN(inputValue)) {
+            const result = inputValue * conversionFactors[fromUnit][toUnit];
+            document.getElementById('volume-output').innerText = result + ' ' + toUnit;
+        } else {
+            document.getElementById('volume-output').innerText = 'Invalid input';
+        }
+    }
+
+    // Temperature Converter Logic
+    function convertTemperature() {
+        const inputValue = parseFloat(document.getElementById('temperature-input').value);
+        const fromUnit = document.getElementById('temperature-from').value;
+        const toUnit = document.getElementById('temperature-to').value;
+
+        // Conversion logic: Celsius to Fahrenheit and vice versa
+        let result;
+        if (fromUnit === 'c' && toUnit === 'f') {
+            result = (inputValue * 9/5) + 32;
+        } else if (fromUnit === 'f' && toUnit === 'c') {
+            result = (inputValue - 32) * 5/9;
+        } else {
+            document.getElementById('temperature-output').innerText = 'Invalid conversion';
+            return;
+        }
+
+        document.getElementById('temperature-output').innerText = result + ' ' + toUnit.toUpperCase();
+    }
+
+// Energy Converter Logic
+    function convertEnergy() {
+        const inputValue = parseFloat(document.getElementById('energy-input').value);
+        const fromUnit = document.getElementById('energy-from').value;
+        const toUnit = document.getElementById('energy-to').value;
+
+        // Conversion factors
+        const conversionFactors = {
+            j: { j: 1, cal: 0.239 },
+            cal: { j: 4.184, cal: 1 }
+            // Add more conversion factors as needed
+        };
+
+        if (!isNaN(inputValue)) {
+            const result = inputValue * conversionFactors[fromUnit][toUnit];
+            document.getElementById('energy-output').innerText = result + ' ' + toUnit;
+        } else {
+            document.getElementById('energy-output').innerText = 'Invalid input';
+        }
+    }
+
+    // Time Converter Logic
+    function convertTime() {
+        const inputValue = parseFloat(document.getElementById('time-input').value);
+        const fromUnit = document.getElementById('time-from').value;
+        const toUnit = document.getElementById('time-to').value;
+
+        // Conversion factors
+        const conversionFactors = {
+            s: { s: 1, min: 1/60, hr: 1/3600 },
+            min: { s: 60, min: 1, hr: 1/60 },
+            hr: { s: 3600, min: 60, hr: 1 }
+            // Add more conversion factors as needed
+        };
+
+        if (!isNaN(inputValue)) {
+            const result = inputValue * conversionFactors[fromUnit][toUnit];
+            document.getElementById('time-output').innerText = result + ' ' + toUnit;
+        } else {
+            document.getElementById('time-output').innerText = 'Invalid input';
+        }
+    }
+
+    // Speed Converter Logic
+    function convertSpeed() {
+        const inputValue = parseFloat(document.getElementById('speed-input').value);
+        const fromUnit = document.getElementById('speed-from').value;
+        const toUnit = document.getElementById('speed-to').value;
+
+        // Conversion factors
+        const conversionFactors = {
+            mps: { mps: 1, kmph: 3.6 },
+            kmph: { mps: 1/3.6, kmph: 1 }
+            // Add more conversion factors as needed
+        };
+
+        if (!isNaN(inputValue)) {
+            const result = inputValue * conversionFactors[fromUnit][toUnit];
+            document.getElementById('speed-output').innerText = result + ' ' + toUnit;
+        } else {
+            document.getElementById('speed-output').innerText = 'Invalid input';
+        }
+    }
+
+	function hideconverter() {
+        document.getElementById('caconverter-container').style.display = 'none';
+    }
+
+
+ // Function to open selected constants section
+function openConstants(sectionName) {
+    // Hide all constants sections
+    const constantsSections = document.querySelectorAll('.constants-section');
+    constantsSections.forEach(section => {
+        section.style.display = 'none';
+    });
+
+    // Show the selected constants section
+    const selectedSection = document.getElementById(sectionName.toLowerCase() + '-constants');
+    if (selectedSection) {
+        selectedSection.style.display = 'block';
+    }
+}
+
+// Event listeners for constants options
+document.querySelectorAll('.constants-option').forEach(option => {
+    option.addEventListener('click', function() {
+        const sectionName = this.textContent.trim().replace(/\s+/g, '-').toLowerCase();
+        openConstants(sectionName);
+    });
+});
+
+// Hide all constants sections initially
+document.querySelectorAll('.constants-section').forEach(section => {
+    section.style.display = 'none';
+});
+
+	function hideconstants() {
+        document.getElementById('constants-container').style.display = 'none';
+    }
+
+
+ function openFormulae(sectionName) {
+        // Hide all formulae sections
+        const formulaeSections = document.querySelectorAll('.formulae-section');
+        formulaeSections.forEach(section => {
+            section.style.display = 'none';
+        });
+
+        // Show the selected formulae section
+        const selectedSection = document.getElementById(sectionName + '-formulae');
+        if (selectedSection) {
+            selectedSection.style.display = 'block';
+        }
+    }
+</script>
+</body>
+</html>
